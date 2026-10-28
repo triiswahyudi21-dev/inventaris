@@ -2,7 +2,7 @@
 <html lang="id" class="h-full bg-slate-100">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SIMUTASI - Sistem Inventaris & Mutasi Barang Sekolah/Kantor</title>
     
     <!-- Tailwind CSS CDN -->
@@ -129,26 +129,36 @@
         .print-only {
             display: none;
         }
+
+        /* Responsive Form Inputs Mobile Touch Friendly */
+        .input-touch {
+            min-height: 46px;
+        }
+        @media (min-width: 640px) {
+            .input-touch {
+                min-height: 40px;
+            }
+        }
     </style>
 </head>
-<body class="h-full text-slate-800 flex flex-col font-sans bg-slate-100">
+<body class="min-h-screen text-slate-800 flex flex-col font-sans bg-slate-100 antialiased selection:bg-brand-500 selection:text-white">
 
     <!-- Toast Notifications Container -->
-    <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2 no-print pointer-events-none"></div>
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2 no-print pointer-events-none max-w-sm w-full px-4"></div>
 
-    <!-- Custom Confirmation Modal (Replaces Native Alert/Confirm) -->
+    <!-- Custom Confirmation Modal -->
     <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 transform transition-all">
-            <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mb-4 text-xl">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4 text-xl">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <h3 id="confirmTitle" class="text-lg font-bold text-slate-900 mb-2">Konfirmasi Tindakan</h3>
-            <p id="confirmMessage" class="text-slate-600 text-sm mb-6">Apakah Anda yakin ingin melanjutkan tindakan ini?</p>
-            <div class="flex justify-end gap-3">
-                <button id="confirmCancelBtn" class="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition">
+            <h3 id="confirmTitle" class="text-base sm:text-lg font-bold text-slate-900 mb-2">Konfirmasi Tindakan</h3>
+            <p id="confirmMessage" class="text-slate-600 text-xs sm:text-sm mb-6 leading-relaxed">Apakah Anda yakin ingin melanjutkan tindakan ini?</p>
+            <div class="flex items-center justify-end gap-3">
+                <button id="confirmCancelBtn" class="flex-1 sm:flex-none min-h-[44px] px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition">
                     <i class="fa-solid fa-xmark mr-1"></i> Batal
                 </button>
-                <button id="confirmOkBtn" class="px-4 py-2 text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 rounded-xl transition">
+                <button id="confirmOkBtn" class="flex-1 sm:flex-none min-h-[44px] px-4 py-2.5 text-xs sm:text-sm font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-xl transition shadow-lg shadow-rose-600/20">
                     <i class="fa-solid fa-check mr-1"></i> Ya, Lanjutkan
                 </button>
             </div>
@@ -157,19 +167,19 @@
 
     <!-- Top Navigation Header -->
     <header class="bg-slate-900 text-white shadow-md sticky top-0 z-30 no-print border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
                 
                 <!-- Logo & Branding -->
-                <div class="flex items-center space-x-3">
-                    <div class="bg-gradient-to-tr from-brand-700 to-indigo-600 text-white p-2.5 rounded-xl shadow-lg shadow-brand-600/30 flex items-center justify-center">
-                        <i class="fa-solid fa-boxes-packing text-xl"></i>
+                <div class="flex items-center space-x-2.5 sm:space-x-3">
+                    <div class="bg-gradient-to-tr from-brand-700 to-indigo-600 text-white p-2.5 sm:p-3 rounded-xl shadow-lg shadow-brand-600/30 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-boxes-packing text-lg sm:text-xl"></i>
                     </div>
                     <div>
-                        <h1 class="font-extrabold text-lg leading-tight tracking-tight flex items-center gap-2">
-                            SIMUTASI <span class="bg-brand-600 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">v3.4 Direct</span>
+                        <h1 class="font-black text-base sm:text-xl leading-tight tracking-tight flex items-center gap-2">
+                            SIMUTASI <span class="bg-brand-600 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">v3.5 Mobile</span>
                         </h1>
-                        <p class="text-xs text-slate-400 flex items-center gap-1.5">
+                        <p class="text-[11px] sm:text-xs text-slate-400 hidden sm:flex items-center gap-1.5 mt-0.5">
                             <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                             Sistem Mutasi & Inventaris Barang Sekolah/Kantor
                         </p>
@@ -177,66 +187,68 @@
                 </div>
 
                 <!-- Header Action Buttons -->
-                <div class="flex items-center gap-2">
-                    <!-- Print Button -->
-                    <button onclick="openPrintConfigModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 border border-slate-700">
-                        <i class="fa-solid fa-print text-brand-400"></i>
-                        <span>Cetak Laporan</span>
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <!-- Cetak Laporan Button -->
+                    <button onclick="openPrintConfigModal()" class="min-h-[42px] px-3 sm:px-4 py-2 bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-slate-200 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 sm:gap-2 border border-slate-700 shadow-sm">
+                        <i class="fa-solid fa-print text-brand-400 text-sm"></i>
+                        <span class="hidden sm:inline">Cetak Laporan</span>
+                        <span class="sm:hidden text-[11px]">Cetak</span>
                     </button>
 
                     <!-- Export Excel -->
-                    <button onclick="exportToCSV()" class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2 shadow-sm">
-                        <i class="fa-solid fa-file-excel text-emerald-300"></i>
-                        <span class="hidden sm:inline">Ekspor Excel</span>
+                    <button onclick="exportToCSV()" class="min-h-[42px] px-3 sm:px-4 py-2 bg-emerald-700 hover:bg-emerald-600 active:bg-emerald-800 text-white rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 sm:gap-2 shadow-sm">
+                        <i class="fa-solid fa-file-excel text-emerald-300 text-sm"></i>
+                        <span class="hidden md:inline">Ekspor Excel</span>
+                        <span class="md:hidden text-[11px]">Excel</span>
                     </button>
 
                     <!-- Backup / Restore -->
-                    <button onclick="openBackupRestoreModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2 border border-slate-700">
-                        <i class="fa-solid fa-database text-brand-400"></i>
-                        <span class="hidden md:inline">Backup/Restore</span>
+                    <button onclick="openBackupRestoreModal()" class="min-h-[42px] px-3 sm:px-4 py-2 bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-slate-200 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 sm:gap-2 border border-slate-700">
+                        <i class="fa-solid fa-database text-brand-400 text-sm"></i>
+                        <span class="hidden lg:inline">Backup/Restore</span>
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Page Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 no-print space-y-6">
+    <!-- Main Application Container (Full Screen Mobile Friendly) -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 no-print space-y-4 sm:space-y-6">
 
-        <!-- DASHBOARD SECTION: TOP 2-COLUMN LAYOUT -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- DASHBOARD SECTION: INPUT FORM & STATS -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
             
-            <!-- COLUMN 1: FORM INPUT DIRECT MUTASI (ALWAYS VISIBLE & READY) -->
-            <div id="formSectionCard" class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition">
-                <div class="p-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
-                    <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-lg bg-brand-600/30 text-brand-400 flex items-center justify-center text-sm">
+            <!-- COLUMN 1: FORM INPUT DIRECT MUTASI -->
+            <div id="formSectionCard" class="lg:col-span-7 bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition">
+                <div class="p-4 sm:p-5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-brand-600/30 text-brand-400 flex items-center justify-center text-base sm:text-lg shrink-0">
                             <i id="formHeaderIcon" class="fa-solid fa-pen-to-square"></i>
                         </div>
                         <div>
                             <h2 id="formHeaderTitle" class="font-extrabold text-sm sm:text-base leading-tight">Input Data Mutasi Barang</h2>
-                            <p id="formHeaderSub" class="text-[11px] text-slate-400">Form selalu siap diisi. Setelah disimpan, form otomatis bersih untuk barang berikutnya.</p>
+                            <p id="formHeaderSub" class="text-[11px] sm:text-xs text-slate-400">Form siap diisi. Setelah disimpan, form otomatis bersih untuk barang berikutnya.</p>
                         </div>
                     </div>
-                    <button type="button" id="btnBatalEdit" onclick="cancelEditMode()" class="hidden px-3 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold rounded-lg border border-amber-500/30 transition flex items-center gap-1">
-                        <i class="fa-solid fa-xmark"></i> Batal Edit
+                    <button type="button" id="btnBatalEdit" onclick="cancelEditMode()" class="hidden min-h-[38px] px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold rounded-xl border border-amber-500/30 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-xmark text-sm"></i> Batal Edit
                     </button>
                 </div>
 
                 <!-- Form Mutasi Direct -->
-                <form id="formMutasi" onsubmit="handleFormSubmit(event)" class="p-5 space-y-4">
+                <form id="formMutasi" onsubmit="handleFormSubmit(event)" class="p-4 sm:p-6 space-y-4">
                     <input type="hidden" id="editingId" value="">
 
                     <!-- Nama Barang -->
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                        <label class="block text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                             <i class="fa-solid fa-box text-brand-600"></i> Nama Barang <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
                                 <i class="fa-solid fa-tag"></i>
                             </span>
-                            <input type="text" id="namaBarang" required placeholder="Contoh: Meja Belajar Siswa, Proyektor Epson, Sound System" class="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition">
+                            <input type="text" id="namaBarang" required placeholder="Contoh: Meja Belajar Siswa, Proyektor Epson, Sound System" class="input-touch w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition">
                         </div>
                     </div>
 
@@ -244,10 +256,10 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <!-- Kondisi Barang -->
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                                 <i class="fa-solid fa-shield-heart text-brand-600"></i> Kondisi <span class="text-rose-500">*</span>
                             </label>
-                            <select id="kondisiBarang" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
+                            <select id="kondisiBarang" required class="input-touch w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
                                 <option value="Baik">🟢 Baik / Utuh</option>
                                 <option value="Rusak Ringan">🟡 Rusak Ringan</option>
                                 <option value="Rusak Berat">🔴 Rusak Berat</option>
@@ -257,21 +269,21 @@
 
                         <!-- Jumlah Barang -->
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                                 <i class="fa-solid fa-cubes text-brand-600"></i> Jumlah Unit <span class="text-rose-500">*</span>
                             </label>
                             <div class="relative">
-                                <input type="number" id="jumlahBarang" min="1" value="1" required class="w-full pl-3 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-center text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 transition">
+                                <input type="number" id="jumlahBarang" min="1" value="1" required class="input-touch w-full pl-3 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-center text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 transition">
                                 <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400 text-xs font-bold">Unit</span>
                             </div>
                         </div>
 
                         <!-- Kategori Barang -->
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                                 <i class="fa-solid fa-tags text-brand-600"></i> Kategori
                             </label>
-                            <select id="kategoriBarang" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
+                            <select id="kategoriBarang" class="input-touch w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
                                 <option value="Elektronik & IT">💻 Elektronik & IT</option>
                                 <option value="Mebel & Perabot">🪑 Mebel & Perabot</option>
                                 <option value="Alat Seni & Musik">🎨 Alat Seni & Musik</option>
@@ -287,11 +299,11 @@
                     <!-- Ruang Asal & Ruang Tujuan -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <!-- Ruang Asal -->
-                        <div class="p-3 bg-amber-50/80 rounded-xl border border-amber-200/80 space-y-1.5">
+                        <div class="p-3.5 bg-amber-50/90 rounded-2xl border border-amber-200/80 space-y-2">
                             <label class="block text-xs font-bold text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
                                 <i class="fa-solid fa-location-arrow text-amber-600"></i> Ruang Asal (Tempat Asal) <span class="text-rose-500">*</span>
                             </label>
-                            <select id="ruangAsalSelect" onchange="toggleCustomRuangInput('asal')" required class="w-full px-3 py-2 bg-white border border-amber-300 rounded-lg text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
+                            <select id="ruangAsalSelect" onchange="toggleCustomRuangInput('asal')" required class="input-touch w-full px-3 py-2.5 bg-white border border-amber-300 rounded-xl text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                                 <option value="">-- Pilih Ruang Asal --</option>
                                 <optgroup label="Kelas 7">
                                     <option value="Kelas 7A">Kelas 7A</option>
@@ -325,15 +337,15 @@
                                 </optgroup>
                                 <option value="Lainnya">✏️ -- Lainnya (Ketik Manual) --</option>
                             </select>
-                            <input type="text" id="ruangAsalCustom" placeholder="Ketik nama ruang asal..." class="hidden w-full px-3 py-2 bg-white border border-amber-400 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <input type="text" id="ruangAsalCustom" placeholder="Ketik nama ruang asal..." class="input-touch hidden w-full px-3 py-2.5 bg-white border border-amber-400 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500">
                         </div>
 
                         <!-- Ruang Tujuan -->
-                        <div class="p-3 bg-emerald-50/80 rounded-xl border border-emerald-200/80 space-y-1.5">
+                        <div class="p-3.5 bg-emerald-50/90 rounded-2xl border border-emerald-200/80 space-y-2">
                             <label class="block text-xs font-bold text-emerald-900 uppercase tracking-wider flex items-center gap-1.5">
                                 <i class="fa-solid fa-location-dot text-emerald-600"></i> Ruang Tujuan (Dipindah Ke) <span class="text-rose-500">*</span>
                             </label>
-                            <select id="ruangTujuanSelect" onchange="toggleCustomRuangInput('tujuan')" required class="w-full px-3 py-2 bg-white border border-emerald-300 rounded-lg text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/30">
+                            <select id="ruangTujuanSelect" onchange="toggleCustomRuangInput('tujuan')" required class="input-touch w-full px-3 py-2.5 bg-white border border-emerald-300 rounded-xl text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/30">
                                 <option value="">-- Pilih Ruang Tujuan --</option>
                                 <optgroup label="Kelas 7">
                                     <option value="Kelas 7A">Kelas 7A</option>
@@ -367,67 +379,67 @@
                                 </optgroup>
                                 <option value="Lainnya">✏️ -- Lainnya (Ketik Manual) --</option>
                             </select>
-                            <input type="text" id="ruangTujuanCustom" placeholder="Ketik nama ruang tujuan..." class="hidden w-full px-3 py-2 bg-white border border-emerald-400 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <input type="text" id="ruangTujuanCustom" placeholder="Ketik nama ruang tujuan..." class="input-touch hidden w-full px-3 py-2.5 bg-white border border-emerald-400 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         </div>
                     </div>
 
                     <!-- Waktu & Catatan -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <div class="flex justify-between items-center mb-1">
+                            <div class="flex justify-between items-center mb-1.5">
                                 <label class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
                                     <i class="fa-solid fa-clock text-brand-600"></i> Waktu Mutasi <span class="text-rose-500">*</span>
                                 </label>
-                                <button type="button" onclick="setCurrentDateTime()" class="text-[11px] text-brand-600 hover:text-brand-700 font-bold flex items-center gap-1">
+                                <button type="button" onclick="setCurrentDateTime()" class="text-xs text-brand-600 hover:text-brand-700 font-bold flex items-center gap-1 active:scale-95 transition">
                                     <i class="fa-solid fa-rotate-right"></i> Set Sekarang
                                 </button>
                             </div>
-                            <input type="datetime-local" id="waktuMutasi" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
+                            <input type="datetime-local" id="waktuMutasi" required class="input-touch w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                                 <i class="fa-solid fa-note-sticky text-brand-600"></i> Catatan Pemindahan
                             </label>
-                            <input type="text" id="catatanBarang" placeholder="contoh: Dipindah sementara untuk pementasan seni..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
+                            <input type="text" id="catatanBarang" placeholder="contoh: Dipindah sementara untuk pementasan seni..." class="input-touch w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
                         </div>
                     </div>
 
                     <!-- Input Foto Bukti -->
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                            <i class="fa-solid fa-camera text-brand-600"></i> Foto Bukti Pemindahan Barang
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-camera text-brand-600"></i> Foto Bukti Pemindahan Barang (Opsional)
                         </label>
                         
-                        <div class="grid grid-cols-2 gap-2 mb-2">
-                            <button type="button" onclick="openCameraModal()" class="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold flex items-center justify-center gap-2 border border-slate-200 transition shadow-sm">
-                                <i class="fa-solid fa-camera text-brand-600 text-sm"></i>
+                        <div class="grid grid-cols-2 gap-2 mb-2.5">
+                            <button type="button" onclick="openCameraModal()" class="min-h-[46px] py-2.5 px-3 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-800 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 border border-slate-200 transition shadow-sm">
+                                <i class="fa-solid fa-camera text-brand-600 text-base"></i>
                                 <span>Kamera Direct</span>
                             </button>
-                            <label class="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold flex items-center justify-center gap-2 border border-slate-200 cursor-pointer transition shadow-sm">
-                                <i class="fa-solid fa-upload text-emerald-600 text-sm"></i>
+                            <label class="min-h-[46px] py-2.5 px-3 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-800 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 border border-slate-200 cursor-pointer transition shadow-sm">
+                                <i class="fa-solid fa-upload text-emerald-600 text-base"></i>
                                 <span>Upload File</span>
                                 <input type="file" id="inputFileFoto" accept="image/*" onchange="handleFileUpload(event)" class="hidden">
                             </label>
                         </div>
 
                         <!-- Preview Foto Area -->
-                        <div id="previewFotoBox" class="relative w-full h-32 bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center overflow-hidden transition">
+                        <div id="previewFotoBox" class="relative w-full h-36 sm:h-32 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center overflow-hidden transition">
                             <div id="previewPlaceholder" class="text-center p-3">
                                 <i class="fa-solid fa-image text-3xl text-slate-300 mb-1"></i>
-                                <p class="text-[11px] font-semibold text-slate-400">Belum ada foto terpilih (Opsional)</p>
+                                <p class="text-xs font-semibold text-slate-400">Belum ada foto terpilih</p>
                             </div>
                             <img id="imgPreview" class="w-full h-full object-cover hidden" alt="Preview Foto">
-                            <button type="button" id="btnHapusFoto" onclick="clearCapturedPhoto()" class="hidden absolute top-2 right-2 bg-rose-600 text-white w-7 h-7 rounded-full flex items-center justify-center shadow-lg hover:bg-rose-700 transition">
-                                <i class="fa-solid fa-xmark text-xs"></i>
+                            <button type="button" id="btnHapusFoto" onclick="clearCapturedPhoto()" class="hidden absolute top-2 right-2 bg-rose-600 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg hover:bg-rose-700 transition">
+                                <i class="fa-solid fa-xmark text-sm"></i>
                             </button>
                         </div>
                     </div>
 
                     <!-- Submit Action Button -->
                     <div class="pt-2">
-                        <button type="submit" id="btnSimpan" class="w-full py-3.5 bg-gradient-to-r from-brand-600 via-brand-700 to-indigo-700 hover:from-brand-700 hover:to-indigo-800 active:scale-[0.99] text-white font-extrabold text-sm rounded-xl shadow-lg shadow-brand-600/30 transition flex items-center justify-center gap-2.5">
-                            <i id="btnSimpanIcon" class="fa-solid fa-floppy-disk text-base"></i>
+                        <button type="submit" id="btnSimpan" class="min-h-[50px] w-full py-3.5 bg-gradient-to-r from-brand-600 via-brand-700 to-indigo-700 hover:from-brand-700 hover:to-indigo-800 active:scale-[0.99] text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-lg shadow-brand-600/30 transition flex items-center justify-center gap-2.5">
+                            <i id="btnSimpanIcon" class="fa-solid fa-floppy-disk text-lg"></i>
                             <span id="btnSimpanText">Simpan Data Mutasi</span>
                         </button>
                     </div>
@@ -438,59 +450,59 @@
             <div class="lg:col-span-5 space-y-4">
                 
                 <!-- Stat Cards Grid -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3.5 hover:shadow-md transition">
-                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+                <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-3.5 hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-right-left"></i>
                         </div>
                         <div class="overflow-hidden">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Mutasi</p>
-                            <h3 id="statTotalMutasi" class="text-2xl font-extrabold text-slate-800 mt-0.5">0</h3>
+                            <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">Total Mutasi</p>
+                            <h3 id="statTotalMutasi" class="text-2xl sm:text-3xl font-black text-slate-800 mt-0.5">0</h3>
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3.5 hover:shadow-md transition">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-3.5 hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-cubes"></i>
                         </div>
                         <div class="overflow-hidden">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Unit Dipindah</p>
-                            <h3 id="statTotalUnit" class="text-2xl font-extrabold text-slate-800 mt-0.5">0</h3>
+                            <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">Unit Dipindah</p>
+                            <h3 id="statTotalUnit" class="text-2xl sm:text-3xl font-black text-slate-800 mt-0.5">0</h3>
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3.5 hover:shadow-md transition">
-                        <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-3.5 hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-location-arrow"></i>
                         </div>
                         <div class="overflow-hidden">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Asal Terbanyak</p>
-                            <h3 id="statRuangAsal" class="text-xs font-bold text-slate-800 mt-0.5 truncate">-</h3>
+                            <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">Asal Terbanyak</p>
+                            <h3 id="statRuangAsal" class="text-xs sm:text-sm font-extrabold text-slate-800 mt-0.5 truncate">-</h3>
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3.5 hover:shadow-md transition">
-                        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl shrink-0">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-3.5 hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-location-dot"></i>
                         </div>
                         <div class="overflow-hidden">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tujuan Terbanyak</p>
-                            <h3 id="statRuangTujuan" class="text-xs font-bold text-slate-800 mt-0.5 truncate">-</h3>
+                            <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">Tujuan Terbanyak</p>
+                            <h3 id="statRuangTujuan" class="text-xs sm:text-sm font-extrabold text-slate-800 mt-0.5 truncate">-</h3>
                         </div>
                     </div>
                 </div>
 
                 <!-- Info Box Helper -->
-                <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-5 rounded-2xl shadow-md border border-slate-700 space-y-3">
+                <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 text-white p-5 rounded-2xl shadow-md border border-slate-700/80 space-y-3">
                     <div class="flex items-center gap-2.5 text-amber-400">
-                        <i class="fa-solid fa-lightbulb text-lg"></i>
-                        <h4 class="font-extrabold text-xs uppercase tracking-wider">Panduan Alur Kerja SIMUTASI</h4>
+                        <i class="fa-solid fa-lightbulb text-xl"></i>
+                        <h4 class="font-black text-xs sm:text-sm uppercase tracking-wider">Fitur Utama SIMUTASI Mobile</h4>
                     </div>
-                    <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4 font-medium leading-relaxed">
-                        <li><strong>Input Langsung:</strong> Form di sebelah kiri selalu aktif & terbuka. Masukkan data barang dan tempat pemindahan.</li>
-                        <li><strong>Foto Cepat:</strong> Gunakan opsi <span class="text-white font-bold">Kamera Direct</span> di HP/Laptop untuk langsung mengambil foto barang di tempat.</li>
-                        <li><strong>Auto-Reset:</strong> Setelah ditekan <span class="text-white font-bold">Simpan</span>, data akan masuk ke rekap di bawah dan form langsung bersih siap untuk barang berikutnya.</li>
-                        <li><strong>Penyimpanan Permanen:</strong> Seluruh data disimpan di database browser (IndexedDB) sehingga aman dan tidak hilang saat browser ditutup.</li>
+                    <ul class="text-xs sm:text-xs text-slate-300 space-y-2.5 list-disc pl-4 font-medium leading-relaxed">
+                        <li><strong>Sensitivitas Layar HP:</strong> Ukuran tombol dan kolom input telah disesuaikan agar mudah disentuh pada layar ponsel.</li>
+                        <li><strong>Auto-Reset Pintar:</strong> Setelah disimpan, form otomatis bersih agar siap menerima barang berikutnya tanpa perlu klik reset manual.</li>
+                        <li><strong>Kamera Direct HP:</strong> Tekan tombol Kamera Direct untuk langsung menjepret foto barang di lapangan.</li>
+                        <li><strong>Penyimpanan Browser (IndexedDB):</strong> Seluruh data rekap tersimpan permanen di HP/Laptop Anda secara aman offline.</li>
                     </ul>
                 </div>
 
@@ -501,52 +513,52 @@
         <div class="space-y-4">
             
             <!-- Toolbar & Filter Panel Card -->
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2">
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2.5">
                     <h3 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2">
                         <i class="fa-solid fa-table-list text-brand-600 text-lg"></i> 
                         <span>Tabel Rekapitulasi Mutasi Barang (Permanen)</span>
                     </h3>
                     <div class="flex items-center gap-2 flex-wrap">
                         <!-- Print Trigger -->
-                        <button onclick="openPrintConfigModal()" class="text-xs text-slate-700 hover:text-white bg-slate-100 hover:bg-brand-600 font-bold px-3 py-1.5 rounded-xl border border-slate-200 transition flex items-center gap-1.5 shadow-sm">
+                        <button onclick="openPrintConfigModal()" class="min-h-[38px] text-xs text-slate-700 hover:text-white bg-slate-100 hover:bg-brand-600 font-bold px-3 py-1.5 rounded-xl border border-slate-200 transition flex items-center gap-1.5 shadow-sm">
                             <i class="fa-solid fa-print text-brand-600"></i> Cetak Laporan
                         </button>
 
                         <!-- Delete All Data Trigger -->
-                        <button onclick="confirmDeleteAllRecords()" class="text-xs text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 font-bold px-3 py-1.5 rounded-xl border border-rose-200 transition flex items-center gap-1.5 shadow-sm">
+                        <button onclick="confirmDeleteAllRecords()" class="min-h-[38px] text-xs text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 font-bold px-3 py-1.5 rounded-xl border border-rose-200 transition flex items-center gap-1.5 shadow-sm">
                             <i class="fa-solid fa-trash-can"></i> Hapus Semua Data
                         </button>
 
                         <!-- Reset Filters -->
-                        <button onclick="resetAllFilters()" class="text-xs text-slate-500 hover:text-rose-600 font-semibold px-2.5 py-1.5 rounded-xl hover:bg-rose-50 border border-slate-200 transition flex items-center gap-1">
+                        <button onclick="resetAllFilters()" class="min-h-[38px] text-xs text-slate-500 hover:text-rose-600 font-semibold px-2.5 py-1.5 rounded-xl hover:bg-rose-50 border border-slate-200 transition flex items-center gap-1">
                             <i class="fa-solid fa-rotate-left"></i> Reset
                         </button>
                     </div>
                 </div>
 
                 <!-- Multi-Filter Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5">
                     <!-- Search Input -->
                     <div class="relative sm:col-span-2 lg:col-span-2">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-slate-400 text-xs">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400 text-sm">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </span>
-                        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Cari barang / catatan..." class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 transition">
+                        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Cari nama barang / catatan / ruang..." class="input-touch w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 transition">
                     </div>
 
                     <!-- Filter Ruang Asal -->
-                    <select id="filterAsal" onchange="renderTable()" class="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:bg-white">
+                    <select id="filterAsal" onchange="renderTable()" class="input-touch px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-xs font-semibold text-slate-800 focus:bg-white">
                         <option value="">Semua Ruang Asal</option>
                     </select>
 
                     <!-- Filter Ruang Tujuan -->
-                    <select id="filterTujuan" onchange="renderTable()" class="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:bg-white">
+                    <select id="filterTujuan" onchange="renderTable()" class="input-touch px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-xs font-semibold text-slate-800 focus:bg-white">
                         <option value="">Semua Ruang Tujuan</option>
                     </select>
 
                     <!-- Filter Kondisi -->
-                    <select id="filterKondisi" onchange="renderTable()" class="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:bg-white">
+                    <select id="filterKondisi" onchange="renderTable()" class="input-touch px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-xs font-semibold text-slate-800 focus:bg-white">
                         <option value="">Semua Kondisi</option>
                         <option value="Baik">🟢 Baik</option>
                         <option value="Rusak Ringan">🟡 Rusak Ringan</option>
@@ -555,7 +567,7 @@
                     </select>
 
                     <!-- Filter Kategori -->
-                    <select id="filterKategori" onchange="renderTable()" class="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:bg-white">
+                    <select id="filterKategori" onchange="renderTable()" class="input-touch px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-xs font-semibold text-slate-800 focus:bg-white">
                         <option value="">Semua Kategori</option>
                         <option value="Elektronik & IT">💻 Elektronik & IT</option>
                         <option value="Mebel & Perabot">🪑 Mebel & Perabot</option>
@@ -569,80 +581,58 @@
                 </div>
 
                 <!-- Sub Filter Row: Dates & Order -->
-                <div class="flex flex-wrap items-center justify-between text-xs pt-2 border-t border-slate-100 gap-2">
+                <div class="flex flex-wrap items-center justify-between text-xs pt-2 border-t border-slate-100 gap-2.5">
                     <div class="flex items-center gap-2 flex-wrap">
-                        <span class="text-[11px] font-bold text-slate-500 uppercase flex items-center gap-1">
-                            <i class="fa-solid fa-calendar-days text-brand-600"></i> Rentang Tanggal:
+                        <span class="text-xs font-bold text-slate-500 uppercase flex items-center gap-1">
+                            <i class="fa-solid fa-calendar-days text-brand-600"></i> Tanggal:
                         </span>
-                        <input type="date" id="filterStartDate" onchange="renderTable()" title="Tanggal Mulai" class="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold">
+                        <input type="date" id="filterStartDate" onchange="renderTable()" title="Tanggal Mulai" class="min-h-[36px] px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700">
                         <span class="text-slate-400">s/d</span>
-                        <input type="date" id="filterEndDate" onchange="renderTable()" title="Tanggal Sampai" class="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold">
+                        <input type="date" id="filterEndDate" onchange="renderTable()" title="Tanggal Sampai" class="min-h-[36px] px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700">
                     </div>
 
-                    <div class="flex items-center gap-3">
-                        <select id="sortOrder" onchange="renderTable()" class="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-700">
+                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                        <select id="sortOrder" onchange="renderTable()" class="min-h-[36px] px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-700">
                             <option value="newest">Terbaru Pertama</option>
                             <option value="oldest">Terlama Pertama</option>
                         </select>
-                        <span id="filteredCount" class="text-slate-500 font-bold text-[11px] bg-slate-100 px-2 py-1 rounded-lg border">Menampilkan 0 data</span>
+                        <span id="filteredCount" class="text-slate-500 font-bold text-xs bg-slate-100 px-2.5 py-1.5 rounded-lg border">Menampilkan 0 data</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Main Rekapitulasi Table Container (With Explicit FontAwesome Headers) -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <!-- Main Rekapitulasi Table Container -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[1050px]">
+                    <table class="w-full text-left border-collapse min-w-[1000px]">
                         <thead>
-                            <tr class="bg-slate-900 text-slate-200 text-[11px] uppercase tracking-wider font-bold border-b border-slate-800">
-                                <th class="p-3 text-center w-12">
-                                    <i class="fa-solid fa-hashtag text-brand-400 mr-1"></i>No
-                                </th>
-                                <th class="p-3 w-40">
-                                    <i class="fa-solid fa-calendar-day text-brand-400 mr-1"></i>Waktu / Tanggal
-                                </th>
-                                <th class="p-3 text-center w-16">
-                                    <i class="fa-solid fa-image text-brand-400 mr-1"></i>Foto
-                                </th>
-                                <th class="p-3">
-                                    <i class="fa-solid fa-box-archive text-brand-400 mr-1"></i>Nama Barang
-                                </th>
-                                <th class="p-3 text-center w-28">
-                                    <i class="fa-solid fa-shield-heart text-brand-400 mr-1"></i>Kondisi
-                                </th>
-                                <th class="p-3 text-center w-20">
-                                    <i class="fa-solid fa-cubes text-brand-400 mr-1"></i>Jumlah
-                                </th>
-                                <th class="p-3 bg-amber-950/40 text-amber-300 w-36">
-                                    <i class="fa-solid fa-location-arrow text-amber-400 mr-1"></i>Asal Barang
-                                </th>
-                                <th class="p-3 bg-emerald-950/40 text-emerald-300 w-36">
-                                    <i class="fa-solid fa-location-dot text-emerald-400 mr-1"></i>Tujuan Barang
-                                </th>
-                                <th class="p-3 w-32">
-                                    <i class="fa-solid fa-tags text-brand-400 mr-1"></i>Kategori
-                                </th>
-                                <th class="p-3">
-                                    <i class="fa-solid fa-note-sticky text-brand-400 mr-1"></i>Catatan
-                                </th>
-                                <th class="p-3 text-center w-24">
-                                    <i class="fa-solid fa-sliders text-brand-400 mr-1"></i>Aksi
-                                </th>
+                            <tr class="bg-slate-900 text-slate-200 text-xs uppercase tracking-wider font-extrabold border-b border-slate-800">
+                                <th class="p-3.5 text-center w-12">No</th>
+                                <th class="p-3.5 w-44">Waktu / Tanggal</th>
+                                <th class="p-3.5 text-center w-16">Foto</th>
+                                <th class="p-3.5">Nama Barang</th>
+                                <th class="p-3.5 text-center w-32">Kondisi</th>
+                                <th class="p-3.5 text-center w-24">Jumlah</th>
+                                <th class="p-3.5 bg-amber-950/40 text-amber-300 w-40">Asal Barang</th>
+                                <th class="p-3.5 bg-emerald-950/40 text-emerald-300 w-40">Tujuan Barang</th>
+                                <th class="p-3.5 w-36">Kategori</th>
+                                <th class="p-3.5">Catatan</th>
+                                <th class="p-3.5 text-center w-28">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="tableBody" class="divide-y divide-slate-100 text-xs">
-                            <!-- Dynamically Generated Rows -->
+                        <tbody id="tableBody" class="divide-y divide-slate-100 text-xs sm:text-sm">
+                            <!-- Dynamic Table Rows Injected Here -->
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Empty State Display -->
-                <div id="emptyState" class="hidden p-12 text-center">
-                    <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl border border-slate-200">
+                <!-- Clean Empty State Display (Initial Clean View) -->
+                <div id="emptyState" class="p-10 sm:p-16 text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-slate-100 text-slate-400 rounded-3xl flex items-center justify-center mx-auto mb-4 text-2xl sm:text-3xl border border-slate-200/80 shadow-inner">
                         <i class="fa-solid fa-folder-open"></i>
                     </div>
-                    <h4 class="font-bold text-slate-700 text-sm">Belum ada data mutasi tersimpan</h4>
-                    <p class="text-xs text-slate-400 max-w-xs mx-auto mt-1">Gunakan form di bagian atas untuk menginput pemindahan barang.</p>
+                    <h4 class="font-bold text-slate-800 text-base sm:text-lg">Belum ada data mutasi barang</h4>
+                    <p class="text-xs sm:text-sm text-slate-400 max-w-sm mx-auto mt-1 leading-relaxed">Tabel rekap saat ini bersih. Gunakan form di atas untuk menginput pemindahan barang baru.</p>
                 </div>
             </div>
 
@@ -650,74 +640,74 @@
     </main>
 
     <!-- MODAL 1: PRINT PREVIEW & CONFIGURATION MODAL -->
-    <div id="printConfigModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 no-print overflow-y-auto">
+    <div id="printConfigModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 no-print overflow-y-auto">
         <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden flex flex-col max-h-[92vh]">
             <div class="p-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
                 <h3 class="font-bold text-sm sm:text-base flex items-center gap-2">
                     <i class="fa-solid fa-print text-brand-400"></i> Pengaturan Cetak Laporan Resmi
                 </h3>
-                <button onclick="closePrintConfigModal()" class="text-slate-400 hover:text-white transition p-1">
+                <button onclick="closePrintConfigModal()" class="text-slate-400 hover:text-white transition p-1.5">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
-            <div class="p-6 overflow-y-auto space-y-5 text-xs">
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-4 sm:space-y-5 text-xs sm:text-xs">
                 
                 <!-- Kop Surat Settings -->
                 <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
-                    <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs flex items-center gap-1.5">
                         <i class="fa-solid fa-heading text-brand-600"></i> Informasi Kop Surat & Laporan
                     </h4>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div>
                             <label class="block font-semibold text-slate-600 mb-1">Nama Instansi / Sekolah</label>
-                            <input type="text" id="printInstansi" value="SMP NEGERI 1 SIMUTASI" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="printInstansi" value="SMP NEGERI 1 SIMUTASI" class="input-touch w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-600 mb-1">Sub-Judul Laporan</label>
-                            <input type="text" id="printSubJudul" value="LAPORAN REKAPITULASI MUTASI & INVENTARIS BARANG" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="printSubJudul" value="LAPORAN REKAPITULASI MUTASI & INVENTARIS BARANG" class="input-touch w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-600 mb-1">Tahun Ajaran / Periode</label>
-                            <input type="text" id="printPeriode" value="Tahun Ajaran 2026/2027" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="printPeriode" value="Tahun Ajaran 2026/2027" class="input-touch w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-600 mb-1">Alamat Instansi / Kota</label>
-                            <input type="text" id="printAlamat" value="Jl. Pendidikan No. 45, Kota Edukasi" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="printAlamat" value="Jl. Pendidikan No. 45, Kota Edukasi" class="input-touch w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                     </div>
                 </div>
 
                 <!-- Scope Data & Photo Display -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
-                        <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                        <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs flex items-center gap-1.5">
                             <i class="fa-solid fa-filter text-emerald-600"></i> Scope Data Cetak
                         </h4>
-                        <div class="space-y-1.5 pt-1">
+                        <div class="space-y-2 pt-1">
                             <label class="flex items-center gap-2 cursor-pointer font-medium text-slate-700">
-                                <input type="radio" name="printScope" value="all" checked class="text-brand-600 focus:ring-brand-500">
+                                <input type="radio" name="printScope" value="all" checked class="text-brand-600 focus:ring-brand-500 w-4 h-4">
                                 <span>Cetak Seluruh Data Transaksi</span>
                             </label>
                             <label class="flex items-center gap-2 cursor-pointer font-medium text-slate-700">
-                                <input type="radio" name="printScope" value="filtered" class="text-brand-600 focus:ring-brand-500">
+                                <input type="radio" name="printScope" value="filtered" class="text-brand-600 focus:ring-brand-500 w-4 h-4">
                                 <span>Cetak Hasil Filter Tabel Saat Ini</span>
                             </label>
                         </div>
                     </div>
 
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
-                        <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                        <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs flex items-center gap-1.5">
                             <i class="fa-solid fa-image text-indigo-600"></i> Tampilan Foto Laporan
                         </h4>
-                        <div class="space-y-1.5 pt-1">
+                        <div class="space-y-2 pt-1">
                             <label class="flex items-center gap-2 cursor-pointer font-medium text-slate-700">
-                                <input type="radio" name="printPhotoOption" value="show" checked class="text-brand-600 focus:ring-brand-500">
+                                <input type="radio" name="printPhotoOption" value="show" checked class="text-brand-600 focus:ring-brand-500 w-4 h-4">
                                 <span>Sertakan Gambar Foto Barang</span>
                             </label>
                             <label class="flex items-center gap-2 cursor-pointer font-medium text-slate-700">
-                                <input type="radio" name="printPhotoOption" value="hide" class="text-brand-600 focus:ring-brand-500">
+                                <input type="radio" name="printPhotoOption" value="hide" class="text-brand-600 focus:ring-brand-500 w-4 h-4">
                                 <span>Sembunyikan Foto (Hemat Tinta)</span>
                             </label>
                         </div>
@@ -726,30 +716,30 @@
 
                 <!-- Signatures Section -->
                 <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
-                    <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs flex items-center gap-1.5">
                         <i class="fa-solid fa-signature text-amber-600"></i> Blok Pengesahan & Tanda Tangan
                     </h4>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div>
                             <label class="block font-semibold text-slate-600 mb-1">Kota & Tanggal Cetak</label>
-                            <input type="text" id="printTanggalTtd" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="printTanggalTtd" class="input-touch w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-600 mb-1">Nama Petugas Inventaris</label>
-                            <input type="text" id="printNamaPetugas" value="Budi Santoso, S.Pd." class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="printNamaPetugas" value="Budi Santoso, S.Pd." class="input-touch w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-600 mb-1">NIP Petugas (Opsional)</label>
-                            <input type="text" id="printNipPetugas" value="NIP. 19850312 201001 1 008" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="printNipPetugas" value="NIP. 19850312 201001 1 008" class="input-touch w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-600 mb-1">Nama Kepala Sekolah / Pimpinan</label>
-                            <input type="text" id="printNamaKepala" value="Dr. H. Ahmad Dahlan, M.Pd." class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="printNamaKepala" value="Dr. H. Ahmad Dahlan, M.Pd." class="input-touch w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div class="md:col-span-2">
                             <label class="block font-semibold text-slate-600 mb-1">NIP Kepala Sekolah (Opsional)</label>
-                            <input type="text" id="printNipKepala" value="NIP. 19720815 199802 1 002" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="printNipKepala" value="NIP. 19720815 199802 1 002" class="input-touch w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                     </div>
                 </div>
@@ -757,10 +747,10 @@
             </div>
 
             <div class="p-4 bg-slate-100 border-t border-slate-200 flex justify-end gap-3 shrink-0">
-                <button onclick="closePrintConfigModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl transition">
+                <button onclick="closePrintConfigModal()" class="min-h-[44px] px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl transition">
                     <i class="fa-solid fa-xmark mr-1"></i> Batal
                 </button>
-                <button onclick="executeConfiguredPrint()" class="px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition flex items-center gap-2 shadow-lg shadow-brand-600/30">
+                <button onclick="executeConfiguredPrint()" class="min-h-[44px] px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition flex items-center gap-2 shadow-lg shadow-brand-600/30">
                     <i class="fa-solid fa-print"></i> Cetak Sekarang
                 </button>
             </div>
@@ -776,7 +766,7 @@
     <div id="cameraModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 no-print">
         <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
             <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
-                <h3 class="font-bold text-sm flex items-center gap-2">
+                <h3 class="font-bold text-sm sm:text-base flex items-center gap-2">
                     <i class="fa-solid fa-camera text-brand-400"></i> Ambil Foto Kamera Direct
                 </h3>
                 <button onclick="closeCameraModal()" class="text-slate-400 hover:text-white transition">
@@ -784,7 +774,7 @@
                 </button>
             </div>
             
-            <div class="relative bg-black h-64 flex items-center justify-center overflow-hidden">
+            <div class="relative bg-black h-64 sm:h-72 flex items-center justify-center overflow-hidden">
                 <video id="webcamVideo" autoplay playsinline class="w-full h-full object-cover"></video>
                 <canvas id="webcamCanvas" class="hidden"></canvas>
                 <div id="cameraError" class="hidden absolute inset-0 bg-slate-900 flex flex-col items-center justify-center p-4 text-center text-rose-400 text-xs">
@@ -793,11 +783,11 @@
                 </div>
             </div>
 
-            <div class="p-4 bg-slate-50 flex items-center justify-between">
-                <button type="button" onclick="switchCameraFacing()" class="p-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold flex items-center gap-2 transition">
+            <div class="p-4 bg-slate-50 flex items-center justify-between gap-2">
+                <button type="button" onclick="switchCameraFacing()" class="min-h-[44px] px-3.5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition">
                     <i class="fa-solid fa-camera-rotate"></i> Putar Kamera
                 </button>
-                <button type="button" onclick="takePhotoFromCamera()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-lg shadow-brand-600/30 flex items-center gap-2 transition">
+                <button type="button" onclick="takePhotoFromCamera()" class="min-h-[44px] px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-brand-600/30 flex items-center gap-2 transition">
                     <i class="fa-solid fa-circle-dot"></i> Ambil Foto
                 </button>
             </div>
@@ -805,28 +795,28 @@
     </div>
 
     <!-- MODAL 3: ITEM DETAIL ZOOM MODAL -->
-    <div id="detailModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 no-print">
+    <div id="detailModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 no-print">
         <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden max-h-[90vh] flex flex-col">
             <div class="p-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
-                <h3 id="modalTitle" class="font-bold text-sm truncate pr-4">Detail Mutasi Barang</h3>
+                <h3 id="modalTitle" class="font-bold text-sm sm:text-base truncate pr-4">Detail Mutasi Barang</h3>
                 <button onclick="closeDetailModal()" class="text-slate-400 hover:text-white transition">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
             
-            <div class="p-5 overflow-y-auto space-y-4">
-                <div class="w-full h-60 bg-slate-100 rounded-xl overflow-hidden flex items-center justify-center border border-slate-200">
+            <div class="p-4 sm:p-5 overflow-y-auto space-y-4">
+                <div class="w-full h-56 sm:h-64 bg-slate-100 rounded-2xl overflow-hidden flex items-center justify-center border border-slate-200 shadow-inner">
                     <img id="detailImg" class="w-full h-full object-contain" src="" alt="Foto Barang">
                 </div>
 
-                <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div class="grid grid-cols-2 gap-3 text-xs sm:text-sm bg-slate-50 p-4 rounded-2xl border border-slate-200">
                     <div>
                         <p class="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Nama Barang</p>
-                        <p id="detailNama" class="font-extrabold text-slate-800 text-sm mt-0.5"></p>
+                        <p id="detailNama" class="font-extrabold text-slate-800 text-sm sm:text-base mt-0.5"></p>
                     </div>
                     <div>
                         <p class="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Jumlah & Kondisi</p>
-                        <p id="detailJumlahKondisi" class="font-extrabold text-slate-800 text-sm mt-0.5"></p>
+                        <p id="detailJumlahKondisi" class="font-extrabold text-slate-800 text-sm sm:text-base mt-0.5"></p>
                     </div>
                     <div>
                         <p class="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Kategori</p>
@@ -838,31 +828,31 @@
                     </div>
                 </div>
 
-                <div class="p-3 bg-slate-100 rounded-xl border border-slate-200 flex items-center justify-between text-center">
+                <div class="p-3.5 bg-slate-100 rounded-2xl border border-slate-200 flex items-center justify-between text-center">
                     <div class="flex-1">
-                        <p class="text-[10px] font-bold uppercase text-amber-700">Asal Barang</p>
-                        <p id="detailAsal" class="font-bold text-slate-800 text-xs sm:text-sm mt-1"></p>
+                        <p class="text-[10px] sm:text-xs font-bold uppercase text-amber-700">Asal Barang</p>
+                        <p id="detailAsal" class="font-black text-slate-800 text-xs sm:text-sm mt-1"></p>
                     </div>
-                    <div class="px-2 text-slate-400 text-base">
+                    <div class="px-2 text-slate-400 text-lg">
                         <i class="fa-solid fa-arrow-right"></i>
                     </div>
                     <div class="flex-1">
-                        <p class="text-[10px] font-bold uppercase text-emerald-700">Tujuan Barang</p>
-                        <p id="detailTujuan" class="font-bold text-slate-800 text-xs sm:text-sm mt-1"></p>
+                        <p class="text-[10px] sm:text-xs font-bold uppercase text-emerald-700">Tujuan Barang</p>
+                        <p id="detailTujuan" class="font-black text-slate-800 text-xs sm:text-sm mt-1"></p>
                     </div>
                 </div>
 
                 <div>
                     <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Catatan Pemindahan</p>
-                    <p id="detailCatatan" class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 italic"></p>
+                    <p id="detailCatatan" class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 italic"></p>
                 </div>
             </div>
 
             <div class="p-4 bg-slate-100 shrink-0 flex justify-between items-center border-t border-slate-200">
-                <button onclick="editSingleRecordFromModal()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+                <button onclick="editSingleRecordFromModal()" class="min-h-[44px] px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs sm:text-sm font-bold rounded-xl transition flex items-center gap-1.5 shadow-md shadow-amber-500/20">
                     <i class="fa-solid fa-pen-to-square"></i> Edit Data Ini
                 </button>
-                <button onclick="closeDetailModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-xl transition">
+                <button onclick="closeDetailModal()" class="min-h-[44px] px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold rounded-xl transition">
                     Tutup
                 </button>
             </div>
@@ -873,7 +863,7 @@
     <div id="backupModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 no-print">
         <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg flex items-center gap-2">
                     <i class="fa-solid fa-database text-brand-600"></i> Backup & Restore Data
                 </h3>
                 <button onclick="closeBackupRestoreModal()" class="text-slate-400 hover:text-slate-600">
@@ -881,20 +871,20 @@
                 </button>
             </div>
 
-            <p class="text-xs text-slate-500 mb-6">Unduh cadangan seluruh data mutasi dalam format file JSON atau pulihkan data sebelumnya.</p>
+            <p class="text-xs sm:text-sm text-slate-500 mb-6 leading-relaxed">Unduh cadangan seluruh data mutasi dalam format file JSON atau pulihkan data dari file cadangan sebelumnya.</p>
 
             <div class="space-y-3">
-                <button onclick="downloadBackupJSON()" class="w-full py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition shadow-md shadow-brand-600/20">
+                <button onclick="downloadBackupJSON()" class="min-h-[48px] w-full py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition shadow-md shadow-brand-600/20">
                     <i class="fa-solid fa-download"></i> Unduh Cadangan Data (.JSON)
                 </button>
 
                 <div class="relative flex py-1 items-center">
                     <div class="flex-grow border-t border-slate-200"></div>
-                    <span class="flex-shrink mx-2 text-[11px] text-slate-400 font-semibold">Atau Restore</span>
+                    <span class="flex-shrink mx-2 text-[11px] text-slate-400 font-bold uppercase">Atau Restore</span>
                     <div class="flex-grow border-t border-slate-200"></div>
                 </div>
 
-                <label class="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer border border-slate-200 transition">
+                <label class="min-h-[48px] w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer border border-slate-200 transition">
                     <i class="fa-solid fa-upload text-emerald-600"></i> Restore File Backup JSON
                     <input type="file" id="inputRestoreJSON" accept=".json" onchange="restoreBackupJSON(event)" class="hidden">
                 </label>
@@ -907,7 +897,7 @@
         /* ==========================================================================
            1. INDEXEDDB DATABASE ENGINE
            ========================================================================== */
-        const DB_NAME = 'SimutasiDB_V34';
+        const DB_NAME = 'SimutasiDB_V35';
         const DB_VERSION = 1;
         const STORE_NAME = 'mutasi_records';
         let db = null;
@@ -988,7 +978,7 @@
         }
 
         /* ==========================================================================
-           2. GLOBAL STATE & INITIAL SEED DATA
+           2. GLOBAL STATE & INITIALIZATION (CLEAN NO DUMMY DATA)
            ========================================================================== */
         let currentPhotoBase64 = '';
         let allMutasiData = [];
@@ -1001,12 +991,8 @@
                 await initDB();
                 setCurrentDateTime();
                 
-                const data = await getAllRecordsDB();
-                if (data.length === 0) {
-                    await seedDummyData();
-                } else {
-                    allMutasiData = data;
-                }
+                // Fetch existing user records from IndexedDB (Initial table state is completely clean)
+                allMutasiData = await getAllRecordsDB();
 
                 populateRoomFilterOptions();
                 renderTable();
@@ -1016,52 +1002,6 @@
                 console.error("Initialization error:", err);
             }
         };
-
-        async function seedDummyData() {
-            const dummyItems = [
-                {
-                    namaBarang: 'Gitar Akustik Yamato',
-                    kondisiBarang: 'Baik',
-                    jumlahBarang: 2,
-                    kategoriBarang: 'Alat Seni & Musik',
-                    ruangAsal: 'Ruang Seni / Sanggar',
-                    ruangTujuan: 'Kelas 7A',
-                    waktuMutasi: new Date(Date.now() - 3600000 * 48).toISOString().slice(0,16),
-                    timestamp: Date.now() - 3600000 * 48,
-                    catatanBarang: 'Dipinjam untuk praktek mata pelajaran Seni Budaya',
-                    foto: null
-                },
-                {
-                    namaBarang: 'Proyektor Epson EB-X400',
-                    kondisiBarang: 'Baik',
-                    jumlahBarang: 1,
-                    kategoriBarang: 'Elektronik & IT',
-                    ruangAsal: 'Lab Komputer',
-                    ruangTujuan: 'Ruang OSIS',
-                    waktuMutasi: new Date(Date.now() - 3600000 * 12).toISOString().slice(0,16),
-                    timestamp: Date.now() - 3600000 * 12,
-                    catatanBarang: 'Dipakai untuk rapat pleno pengurus OSIS',
-                    foto: null
-                },
-                {
-                    namaBarang: 'Meja Belajar Siswa',
-                    kondisiBarang: 'Rusak Ringan',
-                    jumlahBarang: 5,
-                    kategoriBarang: 'Mebel & Perabot',
-                    ruangAsal: 'Kelas 8B',
-                    ruangTujuan: 'Gudang Utama',
-                    waktuMutasi: new Date(Date.now() - 3600000 * 4).toISOString().slice(0,16),
-                    timestamp: Date.now() - 3600000 * 4,
-                    catatanBarang: 'Dipindah ke gudang untuk perbaikan kayu & engsel',
-                    foto: null
-                }
-            ];
-
-            for (const item of dummyItems) {
-                await addRecordDB(item);
-            }
-            allMutasiData = await getAllRecordsDB();
-        }
 
         function initPrintDefaultDates() {
             const now = new Date();
@@ -1091,8 +1031,8 @@
             const bgClass = type === 'success' ? 'bg-slate-900 text-emerald-400 border-emerald-500/30' : 'bg-slate-900 text-rose-400 border-rose-500/30';
             const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
 
-            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-xl ${bgClass} text-xs font-semibold transform transition-all duration-300 translate-y-2 opacity-0`;
-            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i> <span>${message}</span>`;
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3.5 rounded-2xl border shadow-2xl ${bgClass} text-xs sm:text-sm font-semibold transform transition-all duration-300 translate-y-2 opacity-0`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-base sm:text-lg"></i> <span>${message}</span>`;
 
             container.appendChild(toast);
 
@@ -1376,10 +1316,10 @@
                     showToast('Data mutasi berhasil diperbarui!');
                 } else {
                     await addRecordDB(record);
-                    showToast('Data mutasi berhasil disimpan! Form siap untuk barang berikutnya.');
+                    showToast('Data mutasi tersimpan! Form siap diisi kembali.');
                 }
 
-                // AUTO-RESET FORM IMMEDIATELY TO BE READY FOR NEXT ITEM
+                // AUTO-RESET FORM IMMEDIATELY AFTER SAVING
                 resetFormFields();
 
                 // Reload Data and Table
@@ -1400,18 +1340,18 @@
             document.getElementById('ruangTujuanCustom').required = false;
 
             document.getElementById('formHeaderTitle').innerText = 'Input Data Mutasi Barang';
-            document.getElementById('formHeaderSub').innerText = 'Form selalu siap diisi. Setelah disimpan, form otomatis bersih untuk barang berikutnya.';
+            document.getElementById('formHeaderSub').innerText = 'Form siap diisi. Setelah disimpan, form otomatis bersih untuk barang berikutnya.';
             document.getElementById('formHeaderIcon').className = 'fa-solid fa-pen-to-square text-brand-400';
 
             document.getElementById('btnSimpanText').innerText = 'Simpan Data Mutasi';
-            document.getElementById('btnSimpanIcon').className = 'fa-solid fa-floppy-disk text-base';
+            document.getElementById('btnSimpanIcon').className = 'fa-solid fa-floppy-disk text-lg';
 
             document.getElementById('btnBatalEdit').classList.add('hidden');
 
             clearCapturedPhoto();
             setCurrentDateTime();
 
-            // Focus on primary input
+            // Focus back to first input
             setTimeout(() => {
                 document.getElementById('namaBarang').focus();
             }, 50);
@@ -1443,11 +1383,11 @@
             }
 
             document.getElementById('formHeaderTitle').innerText = 'Edit Data Mutasi Barang';
-            document.getElementById('formHeaderSub').innerText = `Sedang mengubah data ID #${item.id} - ${item.namaBarang}`;
+            document.getElementById('formHeaderSub').innerText = `Mengubah ID #${item.id} - ${item.namaBarang}`;
             document.getElementById('formHeaderIcon').className = 'fa-solid fa-pen-to-square text-amber-400';
 
             document.getElementById('btnSimpanText').innerText = 'Perbarui Data Mutasi';
-            document.getElementById('btnSimpanIcon').className = 'fa-solid fa-pen-to-square text-base';
+            document.getElementById('btnSimpanIcon').className = 'fa-solid fa-pen-to-square text-lg';
 
             document.getElementById('btnBatalEdit').classList.remove('hidden');
 
@@ -1585,50 +1525,50 @@
 
                 return `
                     <tr class="hover:bg-slate-50/80 transition border-b border-slate-100">
-                        <td class="p-3 text-center font-bold text-slate-400 text-[11px]">${index + 1}</td>
-                        <td class="p-3 text-[11px] text-slate-600 font-medium leading-snug">
-                            <i class="fa-regular fa-clock text-slate-400 mr-1"></i>${formattedDate}
+                        <td class="p-3.5 text-center font-bold text-slate-400 text-xs">${index + 1}</td>
+                        <td class="p-3.5 text-xs text-slate-600 font-semibold leading-snug">
+                            ${formattedDate}
                         </td>
-                        <td class="p-3 text-center">
-                            <img src="${photoSrc}" onclick="openDetailModal(${item.id})" class="w-9 h-9 object-cover rounded-lg border border-slate-200 cursor-pointer hover:scale-105 transition shadow-sm mx-auto" alt="Foto">
+                        <td class="p-3.5 text-center">
+                            <img src="${photoSrc}" onclick="openDetailModal(${item.id})" class="w-10 h-10 object-cover rounded-xl border border-slate-200 cursor-pointer hover:scale-105 transition shadow-sm mx-auto" alt="Foto">
                         </td>
-                        <td class="p-3 font-bold text-slate-800">
+                        <td class="p-3.5 font-bold text-slate-800">
                             ${escapeHtml(item.namaBarang)}
                         </td>
-                        <td class="p-3 text-center font-semibold">
-                            <span class="inline-block px-2 py-0.5 rounded-md border text-[11px] ${kondisiBadge}">
+                        <td class="p-3.5 text-center font-semibold">
+                            <span class="inline-block px-2.5 py-1 rounded-lg border text-xs ${kondisiBadge}">
                                 ${escapeHtml(kondisiText)}
                             </span>
                         </td>
-                        <td class="p-3 text-center font-bold text-slate-700">
-                            <span class="bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200 text-[11px]">${item.jumlahBarang} Unit</span>
+                        <td class="p-3.5 text-center font-extrabold text-slate-700">
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200 text-xs">${item.jumlahBarang} Unit</span>
                         </td>
-                        <td class="p-3">
-                            <span class="inline-block bg-amber-50 text-amber-900 border border-amber-200 px-2.5 py-0.5 rounded-md font-bold text-[11px]">
-                                <i class="fa-solid fa-location-arrow text-[9px] mr-1 text-amber-600"></i>${escapeHtml(item.ruangAsal)}
+                        <td class="p-3.5">
+                            <span class="inline-block bg-amber-50 text-amber-900 border border-amber-200 px-2.5 py-1 rounded-lg font-bold text-xs">
+                                ${escapeHtml(item.ruangAsal)}
                             </span>
                         </td>
-                        <td class="p-3">
-                            <span class="inline-block bg-emerald-50 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-md font-bold text-[11px]">
-                                <i class="fa-solid fa-location-dot text-[9px] mr-1 text-emerald-600"></i>${escapeHtml(item.ruangTujuan)}
+                        <td class="p-3.5">
+                            <span class="inline-block bg-emerald-50 text-emerald-900 border border-emerald-200 px-2.5 py-1 rounded-lg font-bold text-xs">
+                                ${escapeHtml(item.ruangTujuan)}
                             </span>
                         </td>
-                        <td class="p-3 text-slate-600 font-medium text-[11px]">
-                            <span class="inline-block bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-[10px]"><i class="fa-solid fa-tag text-[9px] mr-1 text-slate-400"></i>${escapeHtml(item.kategoriBarang || '-')}</span>
+                        <td class="p-3.5 text-slate-600 font-medium text-xs">
+                            <span class="inline-block bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-md text-[11px]">${escapeHtml(item.kategoriBarang || '-')}</span>
                         </td>
-                        <td class="p-3 text-slate-500 text-[11px] italic max-w-xs truncate">
+                        <td class="p-3.5 text-slate-500 text-xs italic max-w-xs truncate">
                             ${escapeHtml(item.catatanBarang || '-')}
                         </td>
-                        <td class="p-3 text-center">
-                            <div class="flex items-center justify-center gap-1">
-                                <button onclick="openDetailModal(${item.id})" class="p-1.5 text-slate-500 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition" title="Lihat Detail">
-                                    <i class="fa-solid fa-eye"></i>
+                        <td class="p-3.5 text-center">
+                            <div class="flex items-center justify-center gap-1.5">
+                                <button onclick="openDetailModal(${item.id})" class="min-h-[38px] w-9 h-9 text-slate-500 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition flex items-center justify-center" title="Lihat Detail">
+                                    <i class="fa-solid fa-eye text-base"></i>
                                 </button>
-                                <button onclick="startEditMode(${item.id})" class="p-1.5 text-slate-500 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition" title="Edit Data">
-                                    <i class="fa-solid fa-pen-to-square"></i>
+                                <button onclick="startEditMode(${item.id})" class="min-h-[38px] w-9 h-9 text-slate-500 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition flex items-center justify-center" title="Edit Data">
+                                    <i class="fa-solid fa-pen-to-square text-base"></i>
                                 </button>
-                                <button onclick="confirmDeleteRecord(${item.id})" class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus Data">
-                                    <i class="fa-solid fa-trash"></i>
+                                <button onclick="confirmDeleteRecord(${item.id})" class="min-h-[38px] w-9 h-9 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition flex items-center justify-center" title="Hapus Data">
+                                    <i class="fa-solid fa-trash text-base"></i>
                                 </button>
                             </div>
                         </td>
@@ -1956,7 +1896,7 @@
 
                     showConfirm(
                         'Restore Backup Data',
-                        `Apakah Anda yakin ingin memulihkan ${importedData.length} data? Data lama akan digabungkan dengan data baru.`,
+                        `Apakah Anda yakin ingin memulihkan ${importedData.length} data? Data baru akan digabungkan dengan data di database.`,
                         async () => {
                             for (const item of importedData) {
                                 const newItem = { ...item };
