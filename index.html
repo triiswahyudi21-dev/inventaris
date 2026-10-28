@@ -129,19 +129,9 @@
         .print-only {
             display: none;
         }
-
-        /* Responsive Form Inputs Mobile Touch Friendly */
-        .input-touch {
-            min-height: 46px;
-        }
-        @media (min-width: 640px) {
-            .input-touch {
-                min-height: 40px;
-            }
-        }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 flex flex-col font-sans bg-slate-100 antialiased selection:bg-brand-500 selection:text-white">
+<body class="min-h-screen w-full text-slate-800 flex flex-col font-sans bg-slate-100 antialiased overflow-x-hidden">
 
     <!-- Toast Notifications Container -->
     <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2 no-print pointer-events-none max-w-sm w-full px-4"></div>
@@ -188,11 +178,16 @@
 
                 <!-- Header Action Buttons -->
                 <div class="flex items-center gap-1.5 sm:gap-2">
-                    <!-- Cetak Laporan Button -->
-                    <button onclick="openPrintConfigModal()" class="min-h-[42px] px-3 sm:px-4 py-2 bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-slate-200 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 sm:gap-2 border border-slate-700 shadow-sm">
+                    <!-- Fullscreen Toggle Button -->
+                    <button onclick="toggleFullScreen()" id="btnFullscreen" class="px-2.5 py-2 sm:px-3.5 sm:py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 sm:gap-2 border border-slate-700 min-h-[40px]" title="Layar Penuh">
+                        <i id="iconFullscreen" class="fa-solid fa-expand text-brand-400 text-sm"></i>
+                        <span class="hidden xl:inline" id="textFullscreen">Layar Penuh</span>
+                    </button>
+
+                    <!-- Print Button -->
+                    <button onclick="openPrintConfigModal()" class="px-3 py-2 sm:px-4 sm:py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 sm:gap-2 border border-slate-700 min-h-[40px]">
                         <i class="fa-solid fa-print text-brand-400 text-sm"></i>
-                        <span class="hidden sm:inline">Cetak Laporan</span>
-                        <span class="sm:hidden text-[11px]">Cetak</span>
+                        <span class="hidden xs:inline">Cetak</span>
                     </button>
 
                     <!-- Export Excel -->
@@ -1927,6 +1922,54 @@
                 }[m];
             });
         }
+
+        /* ==========================================================================
+           11. FULLSCREEN API CONTROLLER
+           ========================================================================== */
+        function toggleFullScreen() {
+            if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                const docEl = document.documentElement;
+                if (docEl.requestFullscreen) {
+                    docEl.requestFullscreen();
+                } else if (docEl.msRequestFullscreen) {
+                    docEl.msRequestFullscreen();
+                } else if (docEl.mozRequestFullScreen) {
+                    docEl.mozRequestFullScreen();
+                } else if (docEl.webkitRequestFullscreen) {
+                    docEl.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+        }
+
+        function updateFullscreenIcon() {
+            const icon = document.getElementById('iconFullscreen');
+            const text = document.getElementById('textFullscreen');
+            const isFullscreen = !!(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+            if (icon) {
+                if (isFullscreen) {
+                    icon.className = 'fa-solid fa-compress text-brand-400 text-sm';
+                    if (text) text.innerText = 'Keluar Layar Penuh';
+                } else {
+                    icon.className = 'fa-solid fa-expand text-brand-400 text-sm';
+                    if (text) text.innerText = 'Layar Penuh';
+                }
+            }
+        }
+
+        document.addEventListener('fullscreenchange', updateFullscreenIcon);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
+        document.addEventListener('mozfullscreenchange', updateFullscreenIcon);
+        document.addEventListener('MSFullscreenChange', updateFullscreenIcon);
     </script>
 </body>
 </html>
