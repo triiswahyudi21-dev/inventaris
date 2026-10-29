@@ -118,8 +118,8 @@
                 print-color-adjust: exact;
             }
             .print-photo {
-                width: 40px !important;
-                height: 40px !important;
+                width: 75px !important;
+                height: 75px !important;
                 object-fit: cover !important;
                 border: 1px solid #888 !important;
                 border-radius: 4px !important;
@@ -207,7 +207,7 @@
         </div>
     </header>
 
-    <!-- Main Application Container (Full Screen Mobile Friendly) -->
+    <!-- Main Application Container -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 no-print space-y-4 sm:space-y-6">
 
         <!-- DASHBOARD SECTION: INPUT FORM & STATS -->
@@ -265,11 +265,10 @@
                         <!-- Jumlah Barang -->
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                                <i class="fa-solid fa-cubes text-brand-600"></i> Jumlah Unit <span class="text-rose-500">*</span>
+                                <i class="fa-solid fa-cubes text-brand-600"></i> Jumlah <span class="text-rose-500">*</span>
                             </label>
                             <div class="relative">
-                                <input type="number" id="jumlahBarang" min="1" value="1" required class="input-touch w-full pl-3 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-center text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 transition">
-                                <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400 text-xs font-bold">Unit</span>
+                                <input type="number" id="jumlahBarang" min="1" value="1" required class="input-touch w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-center text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 transition">
                             </div>
                         </div>
 
@@ -378,26 +377,17 @@
                         </div>
                     </div>
 
-                    <!-- Waktu & Catatan -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <div class="flex justify-between items-center mb-1.5">
-                                <label class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                                    <i class="fa-solid fa-clock text-brand-600"></i> Waktu Mutasi <span class="text-rose-500">*</span>
-                                </label>
-                                <button type="button" onclick="setCurrentDateTime()" class="text-xs text-brand-600 hover:text-brand-700 font-bold flex items-center gap-1 active:scale-95 transition">
-                                    <i class="fa-solid fa-rotate-right"></i> Set Sekarang
-                                </button>
-                            </div>
-                            <input type="datetime-local" id="waktuMutasi" required class="input-touch w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                                <i class="fa-solid fa-note-sticky text-brand-600"></i> Catatan Pemindahan
+                    <!-- Waktu Mutasi -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1.5">
+                            <label class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-clock text-brand-600"></i> Waktu Mutasi <span class="text-rose-500">*</span>
                             </label>
-                            <input type="text" id="catatanBarang" placeholder="contoh: Dipindah sementara untuk pementasan seni..." class="input-touch w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
+                            <button type="button" onclick="setCurrentDateTime()" class="text-xs text-brand-600 hover:text-brand-700 font-bold flex items-center gap-1 active:scale-95 transition">
+                                <i class="fa-solid fa-rotate-right"></i> Set Sekarang
+                            </button>
                         </div>
+                        <input type="datetime-local" id="waktuMutasi" required class="input-touch w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30">
                     </div>
 
                     <!-- Input Foto Bukti -->
@@ -461,7 +451,7 @@
                             <i class="fa-solid fa-cubes"></i>
                         </div>
                         <div class="overflow-hidden">
-                            <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">Unit Dipindah</p>
+                            <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">Jumlah Dipindah</p>
                             <h3 id="statTotalUnit" class="text-2xl sm:text-3xl font-black text-slate-800 mt-0.5">0</h3>
                         </div>
                     </div>
@@ -539,7 +529,7 @@
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400 text-sm">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </span>
-                        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Cari nama barang / catatan / ruang..." class="input-touch w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 transition">
+                        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Cari nama barang / ruang..." class="input-touch w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 transition">
                     </div>
 
                     <!-- Filter Ruang Asal -->
@@ -599,7 +589,7 @@
             <!-- Main Rekapitulasi Table Container -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[1000px]">
+                    <table class="w-full text-left border-collapse min-w-[900px]">
                         <thead>
                             <tr class="bg-slate-900 text-slate-200 text-xs uppercase tracking-wider font-extrabold border-b border-slate-800">
                                 <th class="p-3.5 text-center w-12">No</th>
@@ -611,7 +601,6 @@
                                 <th class="p-3.5 bg-amber-950/40 text-amber-300 w-40">Asal Barang</th>
                                 <th class="p-3.5 bg-emerald-950/40 text-emerald-300 w-40">Tujuan Barang</th>
                                 <th class="p-3.5 w-36">Kategori</th>
-                                <th class="p-3.5">Catatan</th>
                                 <th class="p-3.5 text-center w-28">Aksi</th>
                             </tr>
                         </thead>
@@ -621,7 +610,7 @@
                     </table>
                 </div>
 
-                <!-- Clean Empty State Display (Initial Clean View) -->
+                <!-- Clean Empty State Display -->
                 <div id="emptyState" class="p-10 sm:p-16 text-center">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-slate-100 text-slate-400 rounded-3xl flex items-center justify-center mx-auto mb-4 text-2xl sm:text-3xl border border-slate-200/80 shadow-inner">
                         <i class="fa-solid fa-folder-open"></i>
@@ -757,9 +746,9 @@
         <!-- Dynamic Print Content Injected via JavaScript -->
     </div>
 
-    <!-- MODAL 2: CAMERA CAPTURE MODAL -->
+    <!-- MODAL 2: CAMERA CAPTURE MODAL (TAMPILAN DILEBARKAN) -->
     <div id="cameraModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden">
             <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
                 <h3 class="font-bold text-sm sm:text-base flex items-center gap-2">
                     <i class="fa-solid fa-camera text-brand-400"></i> Ambil Foto Kamera Direct
@@ -769,7 +758,7 @@
                 </button>
             </div>
             
-            <div class="relative bg-black h-64 sm:h-72 flex items-center justify-center overflow-hidden">
+            <div class="relative bg-black h-80 sm:h-[450px] flex items-center justify-center overflow-hidden">
                 <video id="webcamVideo" autoplay playsinline class="w-full h-full object-cover"></video>
                 <canvas id="webcamCanvas" class="hidden"></canvas>
                 <div id="cameraError" class="hidden absolute inset-0 bg-slate-900 flex flex-col items-center justify-center p-4 text-center text-rose-400 text-xs">
@@ -835,11 +824,6 @@
                         <p class="text-[10px] sm:text-xs font-bold uppercase text-emerald-700">Tujuan Barang</p>
                         <p id="detailTujuan" class="font-black text-slate-800 text-xs sm:text-sm mt-1"></p>
                     </div>
-                </div>
-
-                <div>
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Catatan Pemindahan</p>
-                    <p id="detailCatatan" class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 italic"></p>
                 </div>
             </div>
 
@@ -973,7 +957,7 @@
         }
 
         /* ==========================================================================
-           2. GLOBAL STATE & INITIALIZATION (CLEAN NO DUMMY DATA)
+           2. GLOBAL STATE & INITIALIZATION
            ========================================================================== */
         let currentPhotoBase64 = '';
         let allMutasiData = [];
@@ -986,7 +970,6 @@
                 await initDB();
                 setCurrentDateTime();
                 
-                // Fetch existing user records from IndexedDB (Initial table state is completely clean)
                 allMutasiData = await getAllRecordsDB();
 
                 populateRoomFilterOptions();
@@ -1284,7 +1267,6 @@
             const ruangAsal = getRuangValue('asal');
             const ruangTujuan = getRuangValue('tujuan');
             const waktuMutasi = document.getElementById('waktuMutasi').value;
-            const catatanBarang = document.getElementById('catatanBarang').value.trim();
 
             if (!namaBarang || !ruangAsal || !ruangTujuan || !waktuMutasi) {
                 showToast('Lengkapi semua kolom bertanda *', 'error');
@@ -1300,7 +1282,6 @@
                 ruangTujuan,
                 waktuMutasi,
                 timestamp: new Date(waktuMutasi).getTime() || Date.now(),
-                catatanBarang: catatanBarang || '-',
                 foto: currentPhotoBase64 || null
             };
 
@@ -1314,10 +1295,7 @@
                     showToast('Data mutasi tersimpan! Form siap diisi kembali.');
                 }
 
-                // AUTO-RESET FORM IMMEDIATELY AFTER SAVING
                 resetFormFields();
-
-                // Reload Data and Table
                 await loadAndRenderData();
             } catch (err) {
                 console.error(err);
@@ -1346,7 +1324,6 @@
             clearCapturedPhoto();
             setCurrentDateTime();
 
-            // Focus back to first input
             setTimeout(() => {
                 document.getElementById('namaBarang').focus();
             }, 50);
@@ -1368,8 +1345,6 @@
             if (item.waktuMutasi) {
                 document.getElementById('waktuMutasi').value = item.waktuMutasi;
             }
-            
-            document.getElementById('catatanBarang').value = item.catatanBarang !== '-' ? item.catatanBarang : '';
 
             if (item.foto) {
                 setCapturedPhoto(item.foto);
@@ -1386,7 +1361,6 @@
 
             document.getElementById('btnBatalEdit').classList.remove('hidden');
 
-            // Scroll smoothly to form section
             document.getElementById('formSectionCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
             document.getElementById('namaBarang').focus();
         }
@@ -1461,7 +1435,6 @@
 
             let filtered = allMutasiData.filter(item => {
                 const matchSearch = item.namaBarang.toLowerCase().includes(searchVal) ||
-                                    (item.catatanBarang && item.catatanBarang.toLowerCase().includes(searchVal)) ||
                                     (item.ruangAsal && item.ruangAsal.toLowerCase().includes(searchVal)) ||
                                     (item.ruangTujuan && item.ruangTujuan.toLowerCase().includes(searchVal));
 
@@ -1507,7 +1480,6 @@
                 const photoSrc = item.foto || 'https://placehold.co/100x100/f1f5f9/94a3b8?text=Tanpa+Foto';
                 const formattedDate = formatIndonesianDateTime(item.waktuMutasi);
 
-                // Badge styling for condition
                 const kondisiText = item.kondisiBarang || 'Baik';
                 let kondisiBadge = 'bg-emerald-50 text-emerald-700 border-emerald-200';
                 if (kondisiText.includes('Rusak Ringan')) {
@@ -1536,7 +1508,7 @@
                             </span>
                         </td>
                         <td class="p-3.5 text-center font-extrabold text-slate-700">
-                            <span class="bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200 text-xs">${item.jumlahBarang} Unit</span>
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200 text-xs">${item.jumlahBarang}</span>
                         </td>
                         <td class="p-3.5">
                             <span class="inline-block bg-amber-50 text-amber-900 border border-amber-200 px-2.5 py-1 rounded-lg font-bold text-xs">
@@ -1550,9 +1522,6 @@
                         </td>
                         <td class="p-3.5 text-slate-600 font-medium text-xs">
                             <span class="inline-block bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-md text-[11px]">${escapeHtml(item.kategoriBarang || '-')}</span>
-                        </td>
-                        <td class="p-3.5 text-slate-500 text-xs italic max-w-xs truncate">
-                            ${escapeHtml(item.catatanBarang || '-')}
                         </td>
                         <td class="p-3.5 text-center">
                             <div class="flex items-center justify-center gap-1.5">
@@ -1622,7 +1591,7 @@
         }
 
         /* ==========================================================================
-           8. PRINT REPORT GENERATOR ENGINE
+           8. PRINT REPORT GENERATOR ENGINE (FOTO LEBIH LEBAR)
            ========================================================================== */
         function openPrintConfigModal() {
             document.getElementById('printConfigModal').classList.remove('hidden');
@@ -1656,7 +1625,6 @@
 
             const showPhotos = printPhotoOption === 'show';
 
-            // Construct Printable DOM Structure
             const printContainer = document.getElementById('printArea');
             printContainer.innerHTML = `
                 <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 12px;">
@@ -1675,14 +1643,13 @@
                         <tr>
                             <th style="width: 25px; text-align: center;">No</th>
                             <th style="width: 120px;">Hari, Tanggal & Jam</th>
-                            ${showPhotos ? '<th style="width: 45px; text-align: center;">Foto</th>' : ''}
+                            ${showPhotos ? '<th style="width: 85px; text-align: center;">Foto</th>' : ''}
                             <th>Nama Barang</th>
                             <th style="width: 70px; text-align: center;">Kondisi</th>
-                            <th style="width: 40px; text-align: center;">Jumlah</th>
-                            <th style="width: 95px;">Asal Barang</th>
-                            <th style="width: 95px;">Tujuan Barang</th>
+                            <th style="width: 50px; text-align: center;">Jumlah</th>
+                            <th style="width: 100px;">Asal Barang</th>
+                            <th style="width: 100px;">Tujuan Barang</th>
                             <th style="width: 90px;">Kategori</th>
-                            <th>Catatan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1698,11 +1665,10 @@
                                     ${photoHtml}
                                     <td><strong>${escapeHtml(item.namaBarang)}</strong></td>
                                     <td style="text-align: center;">${escapeHtml(item.kondisiBarang || 'Baik')}</td>
-                                    <td style="text-align: center; font-weight: bold;">${item.jumlahBarang} Unit</td>
+                                    <td style="text-align: center; font-weight: bold;">${item.jumlahBarang}</td>
                                     <td><span class="print-badge-amber">${escapeHtml(item.ruangAsal)}</span></td>
                                     <td><span class="print-badge-emerald">${escapeHtml(item.ruangTujuan)}</span></td>
                                     <td>${escapeHtml(item.kategoriBarang || '-')}</td>
-                                    <td style="font-size: 8pt;">${escapeHtml(item.catatanBarang || '-')}</td>
                                 </tr>
                             `;
                         }).join('')}
@@ -1748,12 +1714,11 @@
             selectedRecordForDetail = item;
             document.getElementById('modalTitle').innerText = `Detail Mutasi: ${item.namaBarang}`;
             document.getElementById('detailNama').innerText = item.namaBarang;
-            document.getElementById('detailJumlahKondisi').innerText = `${item.jumlahBarang} Unit (${item.kondisiBarang || 'Baik'})`;
+            document.getElementById('detailJumlahKondisi').innerText = `${item.jumlahBarang} (${item.kondisiBarang || 'Baik'})`;
             document.getElementById('detailKategori').innerText = item.kategoriBarang;
             document.getElementById('detailWaktu').innerText = formatIndonesianDateTime(item.waktuMutasi);
             document.getElementById('detailAsal').innerText = item.ruangAsal;
             document.getElementById('detailTujuan').innerText = item.ruangTujuan;
-            document.getElementById('detailCatatan').innerText = item.catatanBarang || '-';
             
             const detailImg = document.getElementById('detailImg');
             detailImg.src = item.foto || 'https://placehold.co/600x400/f1f5f9/94a3b8?text=Tidak+Ada+Foto+Barang';
@@ -1822,7 +1787,7 @@
                 return;
             }
 
-            const headers = ['No', 'Waktu Mutasi', 'Nama Barang', 'Kondisi', 'Jumlah Unit', 'Asal Barang', 'Tujuan Barang', 'Kategori', 'Catatan'];
+            const headers = ['No', 'Waktu Mutasi', 'Nama Barang', 'Kondisi', 'Jumlah', 'Asal Barang', 'Tujuan Barang', 'Kategori'];
             const rows = allMutasiData.map((item, index) => [
                 index + 1,
                 `"${formatIndonesianDateTime(item.waktuMutasi)}"`,
@@ -1831,8 +1796,7 @@
                 item.jumlahBarang || 1,
                 `"${(item.ruangAsal || '').replace(/"/g, '""')}"`,
                 `"${(item.ruangTujuan || '').replace(/"/g, '""')}"`,
-                `"${(item.kategoriBarang || '').replace(/"/g, '""')}"`,
-                `"${(item.catatanBarang || '').replace(/"/g, '""')}"`
+                `"${(item.kategoriBarang || '').replace(/"/g, '""')}"`
             ]);
 
             let csvContent = 'data:text/csv;charset=utf-8,\uFEFF' 
